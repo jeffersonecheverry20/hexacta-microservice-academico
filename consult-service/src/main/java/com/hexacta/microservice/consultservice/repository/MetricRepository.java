@@ -1,16 +1,8 @@
 package com.hexacta.microservice.consultservice.repository;
 
 import com.hexacta.microservice.consultservice.entity.Metric;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-import java.util.List;
-import java.util.Optional;
-
-public interface MetricRepository {
-
-    Metric saveMetric(final Metric metric);
-
-    Metric getMetric(final String userId);
-
-    Optional<List<Metric>> getMetrics();
+public interface MetricRepository extends MongoRepository<Metric, String> {
 
 }

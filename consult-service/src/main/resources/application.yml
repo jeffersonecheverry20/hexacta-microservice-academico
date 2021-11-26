@@ -1,11 +1,9 @@
 server:
   port: 8088
 
-amazon:
-  access:
-    key: ${ACCESS_KEY_BD}
-  secret:
-    key: ${SECRET_KEY_BD}
-  region: ${AWS_REGION}
-  endpoint:
-    url: ${AWS_URI_BD}
+spring:
+  data:
+    mongodb:
+      uri: mongodb://root:root@localhost:27017/inquiries?authSource=admin
+      authentication-database: admin
+      database: inquiries

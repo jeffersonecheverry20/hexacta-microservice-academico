@@ -1,32 +1,27 @@
 package com.hexacta.microservice.consultservice.entity;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.util.Date;
 
-@DynamoDBTable(tableName = "metrics")
+@Document(value = "metrics")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Metric implements Serializable {
 
-    @DynamoDBHashKey(attributeName = "userId")
+    @Id
     private String userId;
-    @DynamoDBAttribute
     private int save;
-    @DynamoDBAttribute
     private int update;
-    @DynamoDBAttribute
     private int delete;
-    @DynamoDBAttribute
     private Date date;
 
 }

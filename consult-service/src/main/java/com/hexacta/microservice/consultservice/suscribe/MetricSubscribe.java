@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class MetricSubscribe implements MessageListener {
@@ -29,10 +30,10 @@ public class MetricSubscribe implements MessageListener {
         try{
             MessageUser user = objectMapper.readValue(message.getBody(), MessageUser.class);
             String operation = user.getOperation();
-            Metric metric = metricRepository.getMetric(String.valueOf(user.getUser().getUserId()));
+            Optional<Metric> metric = metricRepository.findById(String.valueOf(user.getUser().getUserId()));
 
-            if(Objects.isNull(metric)){
-                metricRepository.saveMetric(Metric.builder()
+            if(!metric.isPresent()){
+                metricRepository.save(Metric.builder()
                         .userId(String.valueOf(user.getUser().getUserId()))
                         .save(isSave(operation) ? 1 : 0)
                         .update(isUpdate(operation) ? 1 : 0)
@@ -43,15 +44,15 @@ public class MetricSubscribe implements MessageListener {
             }
 
             if(isSave(operation)){
-                metric.setSave(metric.getSave()+1);
+                metric.get().setSave(metric.get().getSave()+1);
             }else if(isUpdate(operation)){
-                metric.setUpdate(metric.getUpdate()+1);
+                metric.get().setUpdate(metric.get().getUpdate()+1);
             } else if(isDelete(operation)){
-                metric.setDelete(metric.getDelete()+1);
+                metric.get().setDelete(metric.get().getDelete()+1);
             }
 
-            metric.setDate(new Date());
-            metricRepository.saveMetric(metric);
+            metric.get().setDate(new Date());
+            metricRepository.save(metric.get());
 
         }catch (Exception exception){
             LOGGER.info("exception "+exception.getMessage());

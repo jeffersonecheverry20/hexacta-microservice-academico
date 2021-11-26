@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -27,8 +26,8 @@ public class MetricServiceImpl implements MetricService {
     @Override
     public ResponseEntity<Response> getMetric(String userId) {
         try{
-            Metric metric = metricRepository.getMetric(userId);
-            if(Objects.isNull(metric)){
+            Optional<Metric> metric = metricRepository.findById(userId);
+            if(!metric.isPresent()){
                 return ResponseEntity.status(HttpStatus.OK)
                         .body(createResponse(Constant.CODE_ERROR, Constant.MESSAGE_ERROR, "User don't exist"));
             }
@@ -45,14 +44,14 @@ public class MetricServiceImpl implements MetricService {
     @Override
     public ResponseEntity<Response> getMetrics() {
         try{
-            Optional<List<Metric>> metric = metricRepository.getMetrics();
-            if(!metric.isPresent()){
+            List<Metric> metricList = metricRepository.findAll();
+            if(metricList.isEmpty()){
                 return ResponseEntity.status(HttpStatus.OK)
-                        .body(createResponse(Constant.CODE_ERROR, Constant.MESSAGE_ERROR, "User don't exist"));
+                        .body(createResponse(Constant.CODE_ERROR, Constant.MESSAGE_ERROR, "Users don't exist"));
             }
 
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(createResponse(Constant.CODE_SUCCESS, Constant.MESSAGE_SUCCESS, metric.get()));
+                    .body(createResponse(Constant.CODE_SUCCESS, Constant.MESSAGE_SUCCESS, metricList));
         }catch (Exception exception){
             return ResponseEntity.status(HttpStatus.OK)
                     .body(createResponse(Constant.CODE_ERROR, Constant.MESSAGE_ERROR, exception.getMessage()));

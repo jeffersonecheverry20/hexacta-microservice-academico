@@ -56,13 +56,19 @@
 		</dependency>
 
 		<!--DynamoDb-->
-		<dependency>
+		<!--<dependency>
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-java-sdk-dynamodb</artifactId>
 			<version>1.12.94</version>
+		</dependency>-->
+
+
+		<!--MongoDB-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+			<version>2.4.0</version>
 		</dependency>
-
-
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
