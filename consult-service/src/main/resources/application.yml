@@ -1,0 +1,11 @@
+server:
+  port: 8088
+
+amazon:
+  access:
+    key: ${ACCESS_KEY_BD}
+  secret:
+    key: ${SECRET_KEY_BD}
+  region: ${AWS_REGION}
+  endpoint:
+    url: ${AWS_URI_BD}
